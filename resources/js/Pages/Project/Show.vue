@@ -3,9 +3,10 @@
 
     <BreezeAuthenticatedLayout>
         <template #header>
-            <h2 class="bg-green-0 bg-red-0 font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class=" font-semibold text-xl text-gray-800 leading-tight">
                 Project {{project.name}} Tasks
             </h2>
+            <i class="bg-green-300 bg-red-300 d-none" />
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -126,6 +127,21 @@ export default {
         BreezeAuthenticatedLayout,
         Head,
         Pagination,
+    },
+    created() {
+        this.listenForChanges();
+    }
+    ,methods: {
+        listenForChanges() {
+            Echo.channel('tasks.running')
+                .listen('CountUpdated', (e) => {
+                    var task = this.tasks.data.find((task) => task.id === e.id);
+                    if(task){
+                        var index = this.task.indexOf(task);
+                        this.tasks.data[index].progress = e.progress;
+                    }
+                })
+        }
     },
     setup() {
         const form = useForm({

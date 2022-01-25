@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 
+ use App\Events\CountUpdated;
  use App\Models\ProjectTask;
 use Carbon\Carbon;
 use Illuminate\Bus\Batch;
@@ -37,7 +38,9 @@ class Task
      */
     public static function updateTaskCount($task, $count)
     {
-        return $task->update(['count' => $count]);
+        $task->update(['count' => $count]);
+        event(new CountUpdated($task));
+        return $task;
     }
 
 
@@ -78,18 +81,23 @@ class Task
         // Split file into smaller units and create job per each
         $jobs = File::createSmallFiles($task, $content);
 
-        // Queueing a batch of jobs that each process a given number of lines from txt file
-        $batch = Bus::batch($jobs)->finally(function (Batch $batch) use ($task) {
-            // After executing  the  batch has Update task status
-            if ($batch->failedJobs) {
-                $task->fill(['status' => ProjectTask::$FAILEDSTATUS])->save();
-            } else {
-                $task->fill(['status' => ProjectTask::$SUCCESSTATUS])->save();
-            }
-        })->dispatch();
+        if (empty($jobs)){
+            $task->fill(['status' => ProjectTask::$FAILEDSTATUS])->save();
+        }else{
+                // Queueing a batch of jobs that each process a given number of lines from txt file
+                $batch = Bus::batch($jobs)->finally(function (Batch $batch) use ($task) {
+                    // After executing  the  batch has Update task status
+                    if ($batch->failedJobs || $task->count==0 ) {
+                        $task->fill(['status' => ProjectTask::$FAILEDSTATUS])->save();
+                    } else {
+                        $task->fill(['status' => ProjectTask::$SUCCESSTATUS])->save();
+                    }
+                })->dispatch();
 
-        // Update task with batch id
-        $task->fill(['batch_id' => $batch->id])->save();
+                // Update task with batch id
+                $task->fill(['batch_id' => $batch->id])->save();
+        }
+
     }
 
 

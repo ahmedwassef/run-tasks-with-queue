@@ -61,7 +61,7 @@ class File
         foreach ($chunks as $key => $chunk) {
             $file_path_temp =File::$path_temp .'/'. $task->id . '/' . $key . '.txt';
             File::uploaderToTemporaryDirectory($chunk,$file_path_temp);
-            $jobs[] = new FileCounter($file_path_temp, $task);
+            $jobs[] = new FileCounter($file_path_temp, $task,(int) config('settings.sleep_seconds'));
         }
 
         return $jobs;

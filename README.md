@@ -1,10 +1,13 @@
-<img src="./public/project-screenshot.png" alt="Project screenshot"  >
-
 # Project task runner.
 
 >The goal of the system is to create and run tasks. Tasks can be one of three types of
 operations: “Count Words”, “Count Lines” and “Count Characters”. The user can choose
 which type of operation to run on the input file.
+
+
+<img src="./public/project-screenshot.png" alt="Project screenshot"  >
+<img src="./public/project-screenshot2.png" alt="Project screenshot"  >
+
 
 ## Installing / Getting started
 
@@ -62,6 +65,10 @@ Run the database migrations
 
     php artisan db:seed
 
+Run the storage File Links
+
+    php artisan storage:link
+
 Start the local development server
 
     php artisan serve
@@ -82,3 +89,12 @@ Run queue
 - `database/migrations` - Contains all the database migrations
 - `database/seeds` - Contains the database seeder
 - `routes` - Contains all the routes defined in web.php file
+
+
+### Environment variables
+
+you can sleep job per seconds to detect progress by change
+the variable value with seconds.
+the default value is 0
+
+    JOB_SLEEP_SECONDS = 0 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 
 
+use App\Events\CountUpdated;
 use App\Helpers\Task;
 use App\Http\Controllers\Controller;
 use App\Jobs\FileCounter;
@@ -30,6 +31,7 @@ class ProjectController extends Controller
 
     public function index()
     {
+
 
         $projects = Project::orderBy('id', 'desc')
             ->with(['taskCharacters', 'taskLines', 'taskWords'])
@@ -63,7 +65,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'min:6', 'max:6'],
-            'file' => ['required', 'mimes:txt'],
+            'file' => ['required'],
             'task_type' => ['required', 'string'],
         ]);
 

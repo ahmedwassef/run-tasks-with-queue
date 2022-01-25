@@ -65,7 +65,7 @@ class ProjectTask extends Model
      */
     public function getFinishedAtAttribute()
     {
-        if (Bus::findBatch($this->batch_id)->finishedAt){
+        if (Bus::findBatch($this->batch_id) && Bus::findBatch($this->batch_id)->finishedAt){
             return   Bus::findBatch($this->batch_id)->finishedAt->format('Y-m-d h:i:s');
         }
         return   null;
@@ -78,7 +78,8 @@ class ProjectTask extends Model
      */
     public function getProgressAttribute()
     {
-        return Bus::findBatch($this->batch_id)->progress();
+        if(Bus::findBatch($this->batch_id))
+            return Bus::findBatch($this->batch_id)->progress();
     }
 
     /**

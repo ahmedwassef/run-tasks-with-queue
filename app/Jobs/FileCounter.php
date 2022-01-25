@@ -20,6 +20,7 @@ class FileCounter implements ShouldQueue
 
     protected $tempFilePath;
     protected $task;
+    protected $sleepSecond;
 
     /**
      * Create a new job instance.
@@ -28,10 +29,11 @@ class FileCounter implements ShouldQueue
      * @param $tempFilePath
      * @param $task
      */
-    public function __construct($tempFilePath ,$task)
+    public function __construct($tempFilePath ,$task,$sleepSecond)
     {
         $this->tempFilePath=$tempFilePath;
         $this->task=$task;
+        $this->sleepSecond=$sleepSecond;
     }
 
     /**
@@ -41,7 +43,8 @@ class FileCounter implements ShouldQueue
      */
     public function handle()
     {
-        sleep(2);
+
+        sleep($this->sleepSecond);
 
         // Update task with active status and start date
         Task::updateStartedTask($this->task);
