@@ -1,8 +1,6 @@
 # Project task runner.
 
->The goal of the system is to create and run tasks. Tasks can be one of three types of
-operations: “Count Words”, “Count Lines” and “Count Characters”. The user can choose
-which type of operation to run on the input file.
+>The goal of the system is to create and run tasks with queue and job batches
 
 
 <img src="./public/project-screenshot.png" alt="Project screenshot"  >
