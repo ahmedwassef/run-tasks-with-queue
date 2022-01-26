@@ -60,6 +60,7 @@ Run the database migrations (**Set the database connection in .env before migrat
     php artisan migrate
 
 Run the database Sedders
+
     php artisan db:seed
 
 Run the storage File Links
