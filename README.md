@@ -59,8 +59,7 @@ Run the database migrations (**Set the database connection in .env before migrat
 
     php artisan migrate
 
-Run the database migrations
-
+Run the database Sedders
     php artisan db:seed
 
 Run the storage File Links
@@ -74,6 +73,10 @@ Start the local development server
 Run queue
 
     php artisan queue:work
+
+
+Use email : admin@admin.com
+And password : 123456 to login 
 
 ### Project structure
 
